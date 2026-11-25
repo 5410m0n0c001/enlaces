@@ -34,16 +34,16 @@ main{padding:8px 16px 90px;max-width:720px;margin:0 auto}
 section h2{font-family:"Playfair Display",serif;font-size:17px;margin:18px 0 8px;display:flex;align-items:center;gap:8px}
 section h2::after{content:"";flex:1;height:1px;background:var(--gold);opacity:.5}
 .hint{color:var(--gray);font-size:12px;margin:-4px 0 8px}
-.card{background:var(--card);border:1px solid var(--beige);border-radius:14px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
-.info{flex:1;min-width:0}
+.card{background:var(--card);border:1px solid var(--beige);border-radius:14px;padding:12px;margin-bottom:10px}
+.info{min-width:0}
 .t{font-weight:600;font-size:14px;line-height:1.3}
 .d{color:var(--gray);font-size:12px;line-height:1.35;margin-top:2px}
 .u{color:var(--gold);font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tag{display:inline-block;font-size:10px;font-weight:600;background:var(--soft);color:#b8344f;border-radius:6px;padding:1px 6px;margin-left:4px;vertical-align:middle}
-.btns{display:flex;gap:6px;flex:none}
-.btns button,.btns a{width:40px;height:40px;border-radius:12px;border:1px solid var(--beige);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--dark);padding:0}
-.btns .share{background:var(--pink);border-color:var(--pink);color:#fff}
-.btns svg{width:19px;height:19px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.btns button,.btns a{min-height:44px;border-radius:12px;border:1px solid var(--beige);background:#fff;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;color:var(--dark);padding:8px;font:inherit;font-size:13px;font-weight:600;text-decoration:none}
+.btns .share{grid-column:1/-1;background:var(--pink);border-color:var(--pink);color:#fff;font-size:15px}
+.btns svg{width:18px;height:18px;flex:none}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;opacity:0;transition:.2s;pointer-events:none}
 #toast.show{opacity:1;transform:translateX(-50%)}
 .empty{text-align:center;color:var(--gray);padding:40px 0}
@@ -52,7 +52,7 @@ section h2::after{content:"";flex:1;height:1px;background:var(--gold);opacity:.5
 <body>
 <header>
   <h1>Enlaces <span>Primavera</span></h1>
-  <p class="sub">Toca <b>compartir</b> para mandarlo por WhatsApp, Messenger, etc. o <b>copiar</b> para pegarlo.</p>
+  <p class="sub"><b>Compartir</b>: lo mandas por WhatsApp, Messenger, etc. · <b>Copiar enlace</b>: para pegarlo donde quieras · <b>Visitar la página</b>: para verla tú.</p>
   <input id="q" type="search" placeholder="Buscar: paquetes, menú, Potrillos, sillas…" autocomplete="off">
   <div class="chips" id="chips"></div>
 </header>
@@ -192,9 +192,9 @@ function render(){
         <div class="d">${esc(l.d)}</div>
         <div class="u">${esc(l.u.replace(/^https?:\/\//,""))}</div></div>
         <div class="btns">
-          <a href="${l.u}" target="_blank" rel="noopener" aria-label="Abrir">${ICON.open}</a>
-          <button data-a="copy" data-c="${c.id}" data-i="${i}" aria-label="Copiar enlace">${ICON.copy}</button>
-          <button class="share" data-a="share" data-c="${c.id}" data-i="${i}" aria-label="Compartir">${ICON.share}</button>
+          <button class="share" data-a="share" data-c="${c.id}" data-i="${i}">${ICON.share}Compartir</button>
+          <button data-a="copy" data-c="${c.id}" data-i="${i}">${ICON.copy}Copiar enlace</button>
+          <a href="${l.u}" target="_blank" rel="noopener">${ICON.open}Visitar la página</a>
         </div></div>`;
     }).join("") + `</section>`;
   });
