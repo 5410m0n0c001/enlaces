@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enlaces PEG</title>
+<meta name="description" content="Tablero de enlaces de Primavera Events Group para compartir con clientes.">
+<meta name="theme-color" content="#F65C7A">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Enlaces PEG">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#F65C7A; --gold:#C9A96E; --dark:#1F1F1F; --bg:#F8F6F4;
+  --soft:#FADADD; --beige:#EFE7E1; --gray:#6D6D6D; --card:#fff;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--dark);font-family:Poppins,system-ui,sans-serif;font-size:15px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);padding:14px 16px 8px;border-bottom:1px solid var(--beige)}
+h1{font-family:"Playfair Display",serif;font-size:21px;margin:0 0 2px}
+h1 span{color:var(--pink)}
+.sub{color:var(--gray);font-size:12px;margin:0 0 10px}
+#q{width:100%;padding:11px 14px;border:1px solid var(--beige);border-radius:12px;font:inherit;background:#fff;outline:none}
+#q:focus{border-color:var(--pink)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--beige);background:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;color:var(--dark);cursor:pointer}
+.chip.on{background:var(--pink);border-color:var(--pink);color:#fff}
+main{padding:8px 16px 90px;max-width:720px;margin:0 auto}
+section h2{font-family:"Playfair Display",serif;font-size:17px;margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+section h2::after{content:"";flex:1;height:1px;background:var(--gold);opacity:.5}
+.hint{color:var(--gray);font-size:12px;margin:-4px 0 8px}
+.card{background:var(--card);border:1px solid var(--beige);border-radius:14px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.info{flex:1;min-width:0}
+.t{font-weight:600;font-size:14px;line-height:1.3}
+.d{color:var(--gray);font-size:12px;line-height:1.35;margin-top:2px}
+.u{color:var(--gold);font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{display:inline-block;font-size:10px;font-weight:600;background:var(--soft);color:#b8344f;border-radius:6px;padding:1px 6px;margin-left:4px;vertical-align:middle}
+.btns{display:flex;gap:6px;flex:none}
+.btns button,.btns a{width:40px;height:40px;border-radius:12px;border:1px solid var(--beige);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--dark);padding:0}
+.btns .share{background:var(--pink);border-color:var(--pink);color:#fff}
+.btns svg{width:19px;height:19px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;opacity:0;transition:.2s;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%)}
+.empty{text-align:center;color:var(--gray);padding:40px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Enlaces <span>Primavera</span></h1>
+  <p class="sub">Toca <b>compartir</b> para mandarlo por WhatsApp, Messenger, etc. o <b>copiar</b> para pegarlo.</p>
+  <input id="q" type="search" placeholder="Buscar: paquetes, menú, Potrillos, sillas…" autocomplete="off">
+  <div class="chips" id="chips"></div>
+</header>
+<main id="list"></main>
+<div id="toast"></div>
+
+<script>
+const PEG = "https://primaveraeventsgroup.com";
+const GH = "https://5410m0n0c001.github.io";
+
+// gh:true = página en GitHub Pages (fuera del dominio .com)
+const DATA = [
+ {id:"cotizar", name:"Cotizar", hint:"Cuando piden precio o cotización", msg:"Para enviarte tu cotización personalizada, compártenos tus datos aquí:", links:[
+  {t:"Formulario de cotización", d:"Fecha, invitados, lugar y presupuesto para regresar cotización", u:PEG+"/987509816-2/", k:"contacto formulario cotizacion precio"},
+  {t:"Agenda con Richard Hernández", d:"Asesoría con planner", u:PEG+"/richard-hernandez/", k:"cita asesoria planner"},
+  {t:"Agenda con Jessy Sandoval", d:"Asesoría con planner", u:PEG+"/jessy/", k:"cita asesoria planner jessica"},
+ ]},
+ {id:"paquetes", name:"Paquetes", hint:"Catálogo y cada paquete por separado", msg:"Aquí puedes ver el paquete:", links:[
+  {t:"Todos los paquetes", d:"Catálogo completo de paquetes Primavera", u:PEG+"/paquetes-primavera/", k:"catalogo"},
+  {t:"Paquete Presidente", d:"Centro de Convenciones Presidente · 4 tiempos", u:PEG+"/paquete-presidente/", k:"presidente cuernavaca"},
+  {t:"Paquete Gobernador", d:"Centro de Convenciones Presidente · 3 tiempos", u:PEG+"/paquete-gobernador/", k:"presidente cuernavaca"},
+  {t:"Paquete Destino Yolomecatl", d:"Salón Jardín Yolomecatl · Temixco", u:PEG+"/paquete-destino-yolomecatl/", k:"temixco"},
+  {t:"Paquete Linaje Pura Sangre", d:"Rancho / Salón Los Potrillos", u:PEG+"/paquete-linaje-pura-sangre/", k:"potrillos rancho caballos"},
+  {t:"Paquete Imperial Ecuestre", d:"Rancho / Salón Los Potrillos", u:PEG+"/paquete-imperial-ecuestre/", k:"potrillos rancho caballos"},
+  {t:"Paquete Esencia Floral", d:"San Gaspar, Jiutepec · 4 tiempos", u:PEG+"/paquete-esencia-floral/", k:"jiutepec"},
+  {t:"Paquete Armonía", d:"Quinta Zarabanda · Temixco", u:PEG+"/paquete-armonia/", k:"zarabanda temixco"},
+  {t:"Paquete Vuelo Esmeralda", d:"Jardín Tsu Nuum · Xochitepec", u:PEG+"/paquete-vuelo-esmeralda/", k:"tsu nuum xochitepec"},
+  {t:"Paquete Nature's Majesty", d:"Finca Las Isabeles · Xochitepec", u:PEG+"/paquete-natures-majesty/", k:"isabeles xochitepec"},
+  {t:"Paquete Glow Graduation Elite", d:"Graduaciones", u:PEG+"/paquete-glow-graduation-elite/", k:"graduacion"},
+ ]},
+ {id:"foto", name:"Foto y video", hint:"Paquetes de fotografía y video", msg:"Aquí puedes ver el paquete de foto y video:", links:[
+  {t:"Paquetes de fotografía y video", d:"Catálogo de foto y video", u:PEG+"/paquetes-de-fotografia-y-video/", k:"fotografia video"},
+  {t:"Fotografía y video", d:"Servicio y portafolio", u:PEG+"/fotografia-y-video/", k:"fotografia video"},
+  {t:"Paquete Royal Cinematic", d:"Fotografía y video", u:PEG+"/paquete-royal-cinematic/", k:"video"},
+  {t:"Paquete Cinematic Prestige", d:"Fotografía y video", u:PEG+"/paquete-cinematic-prestige/", k:"video"},
+  {t:"Paquete Experiencia Deluxe", d:"Fotografía y video", u:PEG+"/paquete-experiencia-deluxe/", k:"video"},
+  {t:"Paquete Eternal Promise", d:"Fotografía", u:PEG+"/paquete-eternal-promise/", k:"foto"},
+  {t:"Paquete Memoria Clásica", d:"Fotografía", u:PEG+"/paquete-memoria-clasica/", k:"foto"},
+ ]},
+ {id:"locaciones", name:"Locaciones", hint:"Salones y jardines que manejamos", msg:"Te comparto la locación:", links:[
+  {t:"Todas las locaciones", d:"Catálogo de venues y jardines", u:PEG+"/venues/", k:"venues salones jardines lugares"},
+  {t:"Centro de Convenciones Presidente", d:"Chamilpa, Cuernavaca", u:PEG+"/centro-de-convenciones-presidente/", k:"cuernavaca convenio"},
+  {t:"Croquis Centro de Convenciones Presidente", d:"Plano del recinto", u:GH+"/centro-de-convenciones-presidente-croquis/", gh:true, k:"plano mapa"},
+  {t:"Salón Los Potrillos", d:"Rancho Los Potrillos", u:PEG+"/salon-los-potrillos/", k:"rancho caballos convenio"},
+  {t:"Salón Los Caballos", d:"Salón", u:PEG+"/salon-los-caballos/", k:"rancho"},
+  {t:"Salón Jardín Yolomecatl", d:"Temixco", u:PEG+"/salon-jardin-yolomecatl/", k:"temixco"},
+  {t:"Quinta Zarabanda", d:"Temixco", u:PEG+"/quinta-zarabanda/", k:"temixco"},
+  {t:"Finca Las Isabeles", d:"Xochitepec", u:PEG+"/finca-las-isabeles/", k:"xochitepec cabañas"},
+  {t:"Jardín Tsu Nuum", d:"Xochitepec", u:PEG+"/jardin-tsu-nuum/", k:"xochitepec"},
+  {t:"Jardín La Flor", d:"Jardín", u:PEG+"/jardin-la-flor/"},
+  {t:"Salón & Jardín Solaire", d:"Salón aliado", u:GH+"/solaire/", gh:true, k:"solaire"},
+  {t:"Villa Leona", d:"Salón aliado", u:GH+"/Villa-leona-/", gh:true, k:"villa leona"},
+  {t:"Salón Manzanares", d:"Salón aliado · planos 3D", u:GH+"/salon-manzanares/", gh:true, k:"manzanares plano"},
+  {t:"Villa di Fiori", d:"Cotización especial del salón", u:GH+"/villa-di-fiori-/", gh:true, k:"fiori"},
+ ]},
+ {id:"menus", name:"Menús", hint:"Banquete, buffets y postres", msg:"Aquí puedes ver nuestros menús:", links:[
+  {t:"Nuestros menús", d:"Carta oficial de banquete", u:PEG+"/nuestros-menus/", k:"comida banquete"},
+  {t:"Menú Gourmet", d:"Opciones gourmet", u:PEG+"/menu-gourmet/", k:"comida"},
+  {t:"Menú Primavera 2026", d:"Menú de temporada", u:PEG+"/menu-gourmet/menu-primavera-2026/", k:"comida"},
+  {t:"Buffet Mexicano", d:"Buffet", u:PEG+"/menu-gourmet/menu-primavera-2026/buffet-mexicano/", k:"comida tacos"},
+  {t:"Buffet Pastas y Pizzas", d:"Buffet", u:PEG+"/menu-gourmet/menu-primavera-2026/buffet-mexicano/buffet-pastas-y-pizzas/", k:"comida italiana"},
+  {t:"Parrillada de Cortes", d:"Cortes de carne y guarniciones en buffet", u:PEG+"/menu-gourmet/menu-primavera-2026/buffet-mexicano/buffet-pastas-y-pizzas/parrillada-de-cortes-de-carne-y-guarniciones-en-buffet/", k:"carne asado"},
+  {t:"Nuestros postres", d:"Repostería y mesa de postres", u:PEG+"/nuestros-postres/", k:"pastel dulces"},
+ ]},
+ {id:"servicios", name:"Mobiliario y servicios", hint:"Mobiliario, personal, transporte, invitaciones", msg:"Te comparto la información:", links:[
+  {t:"Montajes y mobiliario", d:"Mobiliario y decoración en renta", u:PEG+"/montajes-y-mobiliario/", k:"sillas mesas decoracion renta"},
+  {t:"Staffing", d:"Meseros y personal de servicio", u:PEG+"/staffing/", k:"meseros personal capitan"},
+  {t:"Transportación", d:"Transporte para eventos", u:PEG+"/transportacion/", k:"camioneta traslado"},
+  {t:"Servicios", d:"Todos los servicios de Primavera", u:PEG+"/987509796-2/", k:"services"},
+  {t:"Invitaciones digitales", d:"Servicio de invitaciones", u:PEG+"/invitaciones-digitales/", k:"invitacion"},
+  {t:"Regalo", d:"Página de regalo", u:PEG+"/regalo/", k:"obsequio"},
+  {t:"Demo invitación Boda / Graduación", d:"Muestra para el cliente", u:GH+"/invitacion-demo/", gh:true, k:"invitacion ejemplo"},
+  {t:"Demo invitación Bautizo / Infantil", d:"Muestra para el cliente", u:GH+"/invitacion-alison-/", gh:true, k:"invitacion niños ejemplo"},
+ ]},
+ {id:"ocasion", name:"Por ocasión", hint:"Bodas, XV años, graduaciones", msg:"Te comparto la información:", links:[
+  {t:"Bodas", d:"Bodas en Morelos", u:PEG+"/bodas/", k:"boda"},
+  {t:"Cásate en Morelos", d:"Bodas en Morelos", u:PEG+"/casate-en-morelos/", k:"boda destino"},
+  {t:"Quinceañeras", d:"XV años", u:PEG+"/quinceaneras-primavera/", k:"xv quince"},
+  {t:"Graduaciones", d:"Graduaciones y galas", u:PEG+"/graduaciones-primavera/", k:"graduacion gala"},
+  {t:"Wedding & Event Planning", d:"Organización de eventos", u:PEG+"/987509796-2/wedding-event-planning/", k:"planner organizacion"},
+  {t:"Banquetes Primavera", d:"Servicio de banquetes", u:PEG+"/987509796-2/banquetes-primavera/", k:"banquete comida"},
+ ]},
+ {id:"confianza", name:"Confianza", hint:"Testimonios, quiénes somos, redes y reseñas", msg:"Te comparto:", links:[
+  {t:"Clientes felices", d:"Testimonios de clientes", u:PEG+"/clientes-felices/", k:"testimonios opiniones"},
+  {t:"Quiénes somos", d:"Acerca de Primavera Events Group", u:PEG+"/about/", k:"about nosotros"},
+  {t:"Página principal", d:"primaveraeventsgroup.com", u:PEG+"/", k:"inicio home sitio"},
+  {t:"Galería", d:"Fotos de eventos", u:PEG+"/987509809-2/", k:"fotos gallery"},
+  {t:"Déjanos tu reseña en Google", d:"Para clientes después de su evento", u:"https://g.page/r/CRYo3lgLK8NEEBM/review", k:"opinion estrellas"},
+  {t:"Instagram", d:"@primavera.events.group", u:"https://instagram.com/primavera.events.group", k:"redes"},
+  {t:"TikTok", d:"@primavera_events_group", u:"https://tiktok.com/@primavera_events_group", k:"redes"},
+  {t:"YouTube", d:"@PrimaveraEventsGroup", u:"https://www.youtube.com/@PrimaveraEventsGroup", k:"redes videos"},
+  {t:"Términos y condiciones", d:"Condiciones de servicio", u:PEG+"/terminos-y-condiciones/", k:"legal contrato"},
+  {t:"Aviso de privacidad", d:"Tratamiento de datos personales", u:PEG+"/aviso-de-privacidad/", k:"legal datos"},
+ ]},
+ {id:"blog", name:"Blog y Expo", hint:"Artículos, Expo y pasarela", msg:"Te comparto:", links:[
+  {t:"Blog", d:"Todos los artículos", u:PEG+"/blog/", k:"articulos"},
+  {t:"Expo Boda y 15 Años", d:"Artículo de la Expo", u:PEG+"/expo-boda-y-15-anos/", k:"expo"},
+  {t:"Expo Boda y Quince Años · Centro de Convenciones Presidente", d:"Artículo de la Expo", u:PEG+"/expo-boda-y-quince-anos-centro-de-convenciones-presidente/", k:"expo presidente"},
+  {t:"Álbum de recuerdos Expo", d:"Álbum virtual de la Expo Boda y 15 Años", u:GH+"/foto-album-digital-primavera-evets-group/", gh:true, k:"expo fotos"},
+  {t:"Primavera Haute Runway", d:"Pasarela de moda para novias y XV", u:PEG+"/primavera-haute-runway/", k:"pasarela moda"},
+  {t:"Preparativos finales", d:"Artículo para bodas", u:PEG+"/wedding-final-preparation/", k:"boda consejos"},
+  {t:"Damas y caballeros de honor", d:"Artículo para bodas", u:PEG+"/wedding-bridesmaids-groomsmen/", k:"boda consejos"},
+  {t:"Locación de la boda", d:"Artículo para bodas", u:PEG+"/wedding-event-location/", k:"boda consejos lugar"},
+ ]},
+ {id:"partners", name:"Alianzas", hint:"Para dueños de salones y jardines", msg:"Te comparto nuestro programa de alianzas:", links:[
+  {t:"Primavera Growth Partners™", d:"Programa de alianzas para salones y jardines", u:GH+"/PRIMAVERA-GROWTH-PARTNERS/", gh:true, k:"partners alianza socios venue convenio"},
+ ]},
+];
+
+const ICON = {
+  share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
+  copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+  open:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>'
+};
+
+let cat = "all";
+const $ = s => document.querySelector(s);
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function renderChips(){
+  $("#chips").innerHTML = [{id:"all",name:"Todo"},...DATA].map(c =>
+    `<button class="chip${c.id===cat?" on":""}" data-c="${c.id}">${c.name}</button>`).join("");
+}
+
+function render(){
+  const q = norm($("#q").value.trim());
+  let html = "";
+  DATA.forEach(c => {
+    if (cat !== "all" && c.id !== cat) return;
+    const items = c.links.filter(l => !q || norm(l.t+" "+l.d+" "+(l.k||"")+" "+c.name).includes(q));
+    if (!items.length) return;
+    html += `<section><h2>${c.name}</h2><p class="hint">${c.hint}</p>` + items.map(l => {
+      const i = c.links.indexOf(l);
+      return `<div class="card"><div class="info">
+        <div class="t">${esc(l.t)}${l.gh?'<span class="tag">GitHub</span>':''}</div>
+        <div class="d">${esc(l.d)}</div>
+        <div class="u">${esc(l.u.replace(/^https?:\/\//,""))}</div></div>
+        <div class="btns">
+          <a href="${l.u}" target="_blank" rel="noopener" aria-label="Abrir">${ICON.open}</a>
+          <button data-a="copy" data-c="${c.id}" data-i="${i}" aria-label="Copiar enlace">${ICON.copy}</button>
+          <button class="share" data-a="share" data-c="${c.id}" data-i="${i}" aria-label="Compartir">${ICON.share}</button>
+        </div></div>`;
+    }).join("") + `</section>`;
+  });
+  $("#list").innerHTML = html || `<p class="empty">Sin resultados para “${esc($("#q").value)}”.</p>`;
+}
+
+function toast(m){
+  const t = $("#toast"); t.textContent = m; t.classList.add("show");
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+async function copy(text){
+  try { await navigator.clipboard.writeText(text); }
+  catch { const a = document.createElement("textarea"); a.value = text; document.body.appendChild(a); a.select(); document.execCommand("copy"); a.remove(); }
+  toast("Enlace copiado ✓");
+}
+
+document.addEventListener("click", async e => {
+  const chip = e.target.closest(".chip");
+  if (chip){ cat = chip.dataset.c; renderChips(); render(); window.scrollTo({top:0}); return; }
+  const b = e.target.closest("button[data-a]");
+  if (!b) return;
+  const c = DATA.find(x => x.id === b.dataset.c), l = c.links[+b.dataset.i];
+  if (b.dataset.a === "copy") return copy(l.u);
+  const text = `${c.msg}\n${l.t}`;
+  if (navigator.share){
+    try { await navigator.share({title: l.t, text, url: l.u}); } catch {}
+  } else copy(`${text}\n${l.u}`);
+});
+
+$("#q").addEventListener("input", render);
+renderChips(); render();
+</script>
+</body>
+</html>

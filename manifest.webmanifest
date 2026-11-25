@@ -1,0 +1,12 @@
+{
+  "name": "Enlaces Primavera Events Group",
+  "short_name": "Enlaces PEG",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F8F6F4",
+  "theme_color": "#F65C7A",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
